@@ -1,2 +1,5 @@
 # musicwelike
-A small application that uses last.fm to find music liked by everyone in the room. Built on Ruby.
+A small application that uses last.fm to find music liked by multiple people. Built on Ruby.
+
+#Installing
+Run bundle install.
