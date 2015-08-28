@@ -14,7 +14,6 @@ class User
     if $api_key
       url = $root_url + '?method=user.getTopTracks&user=' + @username + '&api_key=' + $api_key + '&format=json'
       uri = URI(url)
-      puts uri
       response = JSON.load(Net::HTTP.get(uri))
       response.to_json
     else

@@ -30,7 +30,6 @@ describe User do
       expect{@user.top_tracks}.to raise_error('No API key present in the environment.')
 
       if cached
-        puts 'recaching'
         ENV['MUSICWELIKE_API_KEY'] = cached_api_key
       end
     end
@@ -39,6 +38,5 @@ describe User do
       response = @user.top_tracks
       expect{JSON.parse(response)}.to_not raise_error
     end
-
   end
 end
