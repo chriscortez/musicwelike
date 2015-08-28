@@ -18,9 +18,27 @@ describe User do
   end
 
   describe "#toptracks" do
+    it "should return an error if there is no api key present" do
+      cached = false
+
+      if ENV['MUSICWELIKE_API_KEY']
+        cached = true
+        cached_api_key = ENV['MUSICWELIKE_API_KEY']
+        ENV['MUSICWELIKE_API_KEY'] = nil
+      end
+
+      expect{@user.top_tracks}.to raise_error('No API key present in the environment.')
+
+      if cached
+        puts 'recaching'
+        ENV['MUSICWELIKE_API_KEY'] = cached_api_key
+      end
+    end
+
     it "should return a JSON object" do
       response = @user.top_tracks
       expect{JSON.parse(response)}.to_not raise_error
     end
+
   end
 end
