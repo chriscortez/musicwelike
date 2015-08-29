@@ -1,3 +1,4 @@
+require 'net/http'
 require 'json'
 $api_key = ENV['MUSICWELIKE_API_KEY']
 $root_url = 'http://ws.audioscrobbler.com/2.0'
@@ -17,7 +18,7 @@ class User
       response = JSON.load(Net::HTTP.get(uri))
       response.to_json
     else
-      raise 'No API key present in the environment.'
+      raise 'No API key present.'
     end
   end
 end

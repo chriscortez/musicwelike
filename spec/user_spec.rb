@@ -24,13 +24,13 @@ describe User do
       if ENV['MUSICWELIKE_API_KEY']
         cached = true
         cached_api_key = ENV['MUSICWELIKE_API_KEY']
-        ENV['MUSICWELIKE_API_KEY'] = nil
       end
 
-      expect{@user.top_tracks}.to raise_error('No API key present in the environment.')
+      $api_key = nil
+      expect{@user.top_tracks}.to raise_error('No API key present.')
 
       if cached
-        ENV['MUSICWELIKE_API_KEY'] = cached_api_key
+        $api_key = cached_api_key
       end
     end
 

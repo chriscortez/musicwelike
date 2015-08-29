@@ -1,0 +1,8 @@
+h1
+  = "Top Tracks for " + @username
+- if @tracks
+  - @tracks.each do |t|
+    div
+      = t['artist']['name'] + ' - ' + t['name']
+- else
+  p No tracks found
