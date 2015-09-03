@@ -1,8 +1,13 @@
 require 'sinatra/base'
 
 class FakeLastFm < Sinatra::Base
+set :show_exceptions, false
+
   get '/2.0' do
-    json_response 200, 'toptracks.json'
+    if params[:method] == 'user.getTopTracks'
+      user = params[:user]
+      json_response 200, user + '_toptracks.json'
+    end
   end
 
   private

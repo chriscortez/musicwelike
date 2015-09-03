@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
   before :each do
-    @user = User.new "Username"
+    @user = User.new "User1"
   end
 
   describe "#new" do
@@ -12,8 +12,8 @@ describe User do
   end
 
   describe "#username" do
-    it "should be 'Username'" do
-      expect(@user.username).to eql('Username')
+    it "should be 'User1'" do
+      expect(@user.username).to eql('User1')
     end
   end
 
@@ -34,9 +34,14 @@ describe User do
       end
     end
 
-    it "should return a JSON object" do
+    it "should return a hash object" do
       response = @user.top_tracks
-      expect{JSON.parse(response)}.to_not raise_error
+      expect(response.instance_of?(Hash)).to eql(true)
+    end
+
+    it "should raise an error if user is not found" do
+      user = User.new "Invalid"
+      expect{user.top_tracks}.to raise_error('Error: User not found')
     end
   end
 end
