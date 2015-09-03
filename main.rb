@@ -9,9 +9,15 @@ end
 post '/toptracks' do
   @username = params[:username]
   u = User.new @username
-  responseJson = JSON.parse(u.top_tracks)
-  if responseJson
-    @tracks = responseJson['toptracks']['track']
-    slim :toptracks
+
+  begin
+    response = u.top_tracks
+    if response
+      @tracks = response['track']
+      slim :toptracks
+    end
+  rescue Exception => e
+    @message = e.message
+    slim :error
   end
 end
