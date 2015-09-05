@@ -20,7 +20,7 @@ class User
         message = response['message'] ? response['message'] : 'Something went wrong'
         raise 'Error: ' + message
       else
-        response['toptracks']
+        response['toptracks']['track']
       end
     else
       raise 'No API key present.'
@@ -28,29 +28,35 @@ class User
   end
 
   def self.find_matches users
-    # TODO refactor this
-    trackHash = mash_tracks users.first.top_tracks['track']
+    baseTracks = mash_tracks users.first.top_tracks
 
-    matches = {}
-    trackHash.each_key do |k|
-      matches[k] = 1
-    end
+    partialMatches = createCounterHashWithKeys baseTracks.keys
 
     users.drop(1).each do |u|
-      top_tracks = u.top_tracks['track']
-      top_tracks.each do |t|
-        if trackHash[t['mbid']] && trackHash[t['mbid']] == t['artist']['mbid']
-          matches[t['mbid']] += 1
+      u.top_tracks.each do |t|
+        # ensure the song id AND artist id match
+        if baseTracks[t['mbid']] && baseTracks[t['mbid']] == t['artist']['mbid']
+          partialMatches[t['mbid']] += 1
         end
       end
     end
 
-    matches.select { |k,v| v == users.length }
+    # only matches for all users are returned
+    partialMatches.select { |k,v| v == users.length }
   end
 
   private
 
   def self.mash_tracks tracks
+    # use the song id as the key, and the artist id as the value
     Hash[tracks.map { |t| [t['mbid'], t['artist']['mbid']] }]
+  end
+
+  def self.createCounterHashWithKeys keys
+    counterHash = {}
+    keys.each do |k|
+      counterHash[k] = 1
+    end
+    counterHash
   end
 end

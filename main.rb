@@ -13,7 +13,7 @@ post '/toptracks' do
   begin
     response = u.top_tracks
     if response
-      @tracks = response['track']
+      @tracks = response
       slim :toptracks
     end
   rescue Exception => e

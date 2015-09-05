@@ -34,14 +34,24 @@ describe User do
       end
     end
 
-    context "user exists" do
-      it "returns a hash object" do
-        response = @userOne.top_tracks
-        expect(response.instance_of?(Hash)).to be true
+    context "when user exists" do
+      context "with plays" do
+        it "returns a non-empty array" do
+          response = @userOne.top_tracks
+          expect(response.empty?).to be false
+        end
+      end
+
+      context "without plays" do
+        it "returns an empty array" do
+          userFour = User.new "UserFour"
+          response = userFour.top_tracks
+          expect(response.empty?).to be true
+        end
       end
     end
 
-    context "user doesn't exist" do
+    context "when user doesn't exist" do
       it "raises an error" do
         user = User.new "Invalid"
         expect{user.top_tracks}.to raise_error("Error: User not found")
@@ -51,7 +61,7 @@ describe User do
 
   describe ".find_matches" do
 
-    context "no matches exist" do
+    context "when no matches exist" do
       before :each do
         @userTwo = User.new "UserTwo"
       end
@@ -62,7 +72,7 @@ describe User do
       end
     end
 
-    context "matches exist" do
+    context "when matches exist" do
       before :each do
         @userThree = User.new "UserThree"
       end
