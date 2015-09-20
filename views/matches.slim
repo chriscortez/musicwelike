@@ -1,0 +1,10 @@
+div.usernames
+  span Matches for 
+  - @users.each do |u|
+    a = u.username
+    - unless u.equal? @users.last
+      span = ' and '
+div.matches
+  - @matches.each_value do |m|
+    div.match
+      = m['artist']['name'] + ' - ' + m['name']

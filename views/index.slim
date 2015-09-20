@@ -1,4 +1,7 @@
-form action='/toptracks' method='POST'
-  label Enter Last.Fm username: 
-  input type='text' name='username'
-  input.button type='submit' value='Search'
+form action='/matches' method='POST'
+  p Enter Last.Fm usernames
+  div.user_input
+    input type='text' name='users[0]'
+  div.user_input
+    input type='text' name='users[1]'
+    input.button type='submit' value='Search'

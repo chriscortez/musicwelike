@@ -2,6 +2,7 @@ require 'net/http'
 require 'json'
 $api_key = ENV['MUSICWELIKE_API_KEY']
 $root_url = 'http://ws.audioscrobbler.com/2.0'
+$limit = '150' # TODO make this user-definable
 
 
 class User
@@ -13,7 +14,7 @@ class User
 
   def top_tracks
     if $api_key
-      url = $root_url + '?method=user.getTopTracks&user=' + @username + '&api_key=' + $api_key + '&format=json'
+      url = $root_url + '?method=user.getTopTracks&user=' + @username + '&api_key=' + $api_key + '&format=json' + '&limit=' + $limit
       uri = URI(url)
       response = JSON.load(Net::HTTP.get(uri))
       if response['error']
