@@ -68,7 +68,7 @@ describe User do
 
       it "returns an empty hash" do
         matches = User.find_matches [@userOne, @userTwo]
-        expect(matches.empty?).to be true
+        expect(matches).to be_empty
       end
     end
 
@@ -79,7 +79,7 @@ describe User do
 
       it "returns a Hash of matches" do
         matches = User.find_matches [@userOne, @userThree]
-        expect(matches['76cc0d1b-c44f-4252-829e-9f55ef45b1ab']).to eql(2)
+        expect(matches).to include ( { '76cc0d1b-c44f-4252-829e-9f55ef45b1ab' => { 'count' => 2, 'name' => 'Reckoner', 'artist' => { 'name' => 'Radiohead', 'id' => 'a74b1b7f-71a5-4011-9441-d0b5e4122711' } } })
       end
     end
   end

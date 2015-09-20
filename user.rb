@@ -28,35 +28,50 @@ class User
   end
 
   def self.find_matches users
-    baseTracks = mash_tracks users.first.top_tracks
+    baseTracks = map_tracks users.first.top_tracks
+    partialMatches = initializeTrackCounts baseTracks
 
-    partialMatches = createCounterHashWithKeys baseTracks.keys
 
     users.drop(1).each do |u|
       u.top_tracks.each do |t|
         # ensure the song id AND artist id match
-        if baseTracks[t['mbid']] && baseTracks[t['mbid']] == t['artist']['mbid']
-          partialMatches[t['mbid']] += 1
+        if baseTracks[t['mbid']] && baseTracks[t['mbid']]['artist']['id'] == t['artist']['mbid']
+          partialMatches[t['mbid']]['count'] += 1
         end
       end
     end
 
     # only matches for all users are returned
-    partialMatches.select { |k,v| v == users.length }
+    partialMatches.select { |id, t| t['count'] == users.length }
   end
 
   private
 
-  def self.mash_tracks tracks
-    # use the song id as the key, and the artist id as the value
-    Hash[tracks.map { |t| [t['mbid'], t['artist']['mbid']] }]
+  def self.map_tracks tracks
+    # use the following schema for holding track information
+    # {
+    #   track_id => {
+    #                 name,
+    #                 artist => {
+    #                             id,
+    #                             name
+    #                           }
+    #               }
+    # }
+    Hash[tracks.map { |t| [t['mbid'],
+                            {
+                              'name' => t['name'],
+                              'artist' => {
+                                'id' => t['artist']['mbid'],
+                                'name' => t['artist']['name']
+                              }
+                            }
+                          ]}]
   end
 
-  def self.createCounterHashWithKeys keys
-    counterHash = {}
-    keys.each do |k|
-      counterHash[k] = 1
+  def self.initializeTrackCounts tracks
+    tracks.each do |id, t|
+      t['count'] = 1
     end
-    counterHash
   end
 end
