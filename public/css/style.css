@@ -1,0 +1,12 @@
+.container {
+  margin-top: 120px;
+  text-align: center;
+}
+
+.name_input {
+  margin-bottom: 10px;
+}
+
+#input_adder {
+  margin-bottom: 20px;
+}

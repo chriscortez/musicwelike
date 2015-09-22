@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 $api_key = ENV['MUSICWELIKE_API_KEY']
 $root_url = 'http://ws.audioscrobbler.com/2.0'
-$limit = '150' # TODO make this user-definable
+$limit = '500' # TODO make this user-definable
 
 
 class User
