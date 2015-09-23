@@ -10,3 +10,7 @@
 #input_adder {
   margin-bottom: 20px;
 }
+
+.usernames h1 {
+  display: inline;
+}

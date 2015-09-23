@@ -9,7 +9,8 @@ class User
   attr_accessor :username
 
   def initialize username
-    @username = username
+    # Last.fm does not allow spaces in usernames
+    @username = username.gsub(/\s+/, "")
   end
 
   def top_tracks

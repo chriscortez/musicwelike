@@ -1,18 +1,27 @@
 div.container
-  button#input_adder href='#' Add another
+  button#reset type='button' Reset
   form#find_matches action='/matches' method='POST'
     p Enter Last.Fm usernames
     div.input_container
-      div.name_input
-        input type='text' name='users[0]'
-      div.name_input
-        input type='text' name='users[1]'
-    input type='submit' value='Search'
+      div.name_input.default
+        input[type='text' name='users[0]' required]
+      div.name_input.default
+        input[type='text' name='users[1]' required]
+    div.add_button_container
+      button#input_adder type='button' Add another
+    input#search type='submit' value='Find Music We Like'
 
 
 javascript:
   $('#input_adder').click(function(e)
   {
     var num = $('#find_matches .name_input').length;
-    $('#find_matches .input_container').append('<div class="name_input"><input type="text" name="users[' + num + ']"></div>'); 
-  })
+    $('#find_matches .input_container').append('<div class="name_input"><input type="text" name="users[' + num + ']" required></div>');
+  });
+
+  $('#reset').click(function(e)
+  {
+    var $inputs = $('#find_matches .name_input');
+    $inputs.find('input').val('');
+    $inputs.not('.default').remove();
+  });
